@@ -1,0 +1,19 @@
+---
+fstab:
+  /dev/disk1s1:
+    mount: /var/log
+    type: xfs
+  /dev/disk1s2:
+    mount: /etc
+    type: ext4
+  /dev/disk1s3:
+    mount: /bin
+    type: ext4
+    root-reserve: 10%
+  google.com:
+    mount: /home
+    export: /opt
+    type: nfs
+    options:
+      - noexec
+      - nosuid
