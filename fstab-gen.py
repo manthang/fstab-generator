@@ -3,36 +3,29 @@ import os
 from os import path
 import sys
 import stat
-import socket
 import yaml
 
 def validate_address(address):
   try:
-    # Check if address is resolvable by local DNS client or /etc/hosts file
-    socket.gethostbyname(address)
+    # Check if address is an IPv4 address
+    octets = address.split(".")
+    
+    if len(octets) != 4:
+      print("The address " + address + " is not valid.")
+      return False
+
+    for octet in octets:
+      if not isinstance(int(octet), int):
+        print("The address " + address + " is not valid.")
+        return False
+      if int(octet) < 0 or int(octet) > 255:
+        print("The address " + address + " is not valid.")
+        return False
+  
     return True
 
   except:
-    try:
-      # Check if address is an IPv4 address
-      octets = address.split(".")
-      
-      if len(octets) != 4:
-        print("The address " + address + " is not valid.")
-        return False
-
-      for octet in octets:
-        if not isinstance(int(octet), int):
-          print("The address " + address + " is not valid.")
-          return False
-        if int(octet) < 0 or int(octet) > 255:
-          print("The address " + address + " is not valid.")
-          return False
-    
-      return True
-
-    except:
-      return False
+    return False
 
 def validate_input(list_of_dicts):
   devices = []
